@@ -149,20 +149,22 @@ var RangeModel = Backbone.Model.extend({
 		this.currentDatePointer = Date.today();
 		this.weekStart = "sunday";
 	},
-	rangeIndexMappings: ["day", "week", "month", "year", "total"],
 	updateRangeByIndex: function(index) {
-		this.set({range:this.rangeIndexMappings[index]});
-		this.set({rangeIndex:index});
+		var values = ["day", "week", "month", "year", "interval", "total"];
+		this.set({
+			range: values[index],
+			rangeIndex: index
+		});
 		this.updateRangeObj();
 	},
 	updateRangeObj: function() {
 		var range = this.get("range"),
 			d1, d2;
 
-		if (range === "day") {
+		if (range === "day" || range === "interval") {
 			d1 = this.currentDatePointer.clone();
 			d2 = this.currentDatePointer.clone().add(1).days();
-		} else if(range === "week") {
+		} else if (range === "week") {
 			if (this.weekStart === "sunday") {
 				if (this.currentDatePointer.is().sunday()) {
 					d1 = this.currentDatePointer.clone();
@@ -188,7 +190,16 @@ var RangeModel = Backbone.Model.extend({
 			d2 = Number.POSITIVE_INFINITY;
 		}
 
-		this.set({rangeObj:{start:d1, end:d2, type:range, weekStart:this.weekStart}});
+		console.log("updateRangeObj()", range, d1, d2);
+
+		this.set({
+			rangeObj: {
+				start: d1,
+				end: d2,
+				type: range,
+				weekStart: this.weekStart
+			}
+		});
 	},
 	getRangeObj: function() {
 		return this.get("rangeObj");

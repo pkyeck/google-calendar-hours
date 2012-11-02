@@ -56,6 +56,10 @@ select {
   padding: 3px 7px;
 }
 
+.form-horizontal .control-label {
+  width: 60px;
+}
+
 table.description {
   font-size: 10px;
   line-height: 11px;
