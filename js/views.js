@@ -228,6 +228,9 @@ var RangeChangeBtns = Backbone.View.extend({
 var Output = Backbone.View.extend({
 	template: undefined,
 	detailsShown: false,
+	events: {
+		'click a.toggleDescription': 'toggleDescription'
+	},
 	initialize: function() {
 		this.model.bind('updateOutput', this.updateView, this);
 		this.template = _.template($('#tmplOutput').html());
@@ -273,11 +276,20 @@ var Output = Backbone.View.extend({
 	show: function() {
 		this.$el.css("display", "block");
 	},
+	toggleDescription: function(evt) {
+		var $a = this.$(evt.currentTarget),
+			$table = $a.next();
+		$table.toggle();
+		$a.text($table.css('display') == 'none' ? '+' : '-');
+		evt.preventDefault();
+	},
 	onDetailsShown: function(evt) {
 		this.detailsShown = true;
+		$('a[href="#showDetails"]').text('hide details');
 	},
 	onDetailsHidden: function(evt) {
 		this.detailsShown = false;
+		$('a[href="#showDetails"]').text('show details');
 	}
 });
 

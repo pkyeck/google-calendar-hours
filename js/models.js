@@ -79,6 +79,7 @@ var Calendar = Backbone.Model.extend({
 				diff,
 				hours,
 				title = item.get('summary'),
+				details = item.get('description'),
 				name = title.toLowerCase().replace(/[^\w.]/g, ""); // TODO normalize
 
 			itemDataStart = new Date(item.get("start").dateTime);
@@ -90,11 +91,20 @@ var Calendar = Backbone.Model.extend({
 
 				if (typeof projects[name] === 'undefined') {
 					projects[name] = {
-						hours: hours,
-						label: title
+						hours: 0,
+						label: title,
+						details: []
 					};
-				} else {
-					projects[name].hours += hours;
+				}
+				
+				projects[name].hours += hours;
+
+				if (details) {
+					projects[name].details.push({
+						date: itemDataStart.toString('dd.MM.'),
+						label: details,
+						duration: hours
+					});
 				}
 			}
 		}, this);
@@ -107,6 +117,11 @@ var Calendar = Backbone.Model.extend({
 	_sortProjectDetails: function(projects) {
 		var projectList = [];
 		for (var p in projects) {
+			//
+			if (projects[p].details.length > 1) {
+				projects[p].details.reverse();
+			}
+			// add to array
 			projectList.push(projects[p]);
 		}
 		projectList.sort(function (a, b) {

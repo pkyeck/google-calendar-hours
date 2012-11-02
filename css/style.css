@@ -15,7 +15,7 @@
 .hours {
   font-size:64px;
   font-weight:bold;
-  color:grey;
+  color:gray;
   line-height:normal;
   text-align:center;
 }
@@ -54,6 +54,20 @@ select {
 
 .accordion-heading .accordion-toggle {
   padding: 3px 7px;
+}
+
+table.description {
+  font-size: 10px;
+  line-height: 11px;
+  color: gray;
+  margin: 4px 0;
+  display: none;
+}
+table.description td:first-child {
+  width: 35px;
+}
+table.description td:nth-child(2) {
+  width: 25px;
 }
 
 @media screen and (max-width: 480px) {
