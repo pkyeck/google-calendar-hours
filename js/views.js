@@ -21,23 +21,23 @@ var btnLabel = {
 
 var IntroView = Backbone.View.extend({
 	template: undefined,
-	events:{
+	events: {
 		'click a#authBtn': 'connectWithGoogle'
 	},
-	id:"intro",
-	initialize:function(){
+	id: "intro",
+	initialize: function() {
 		this.$el.css("width", "100%");
 		this.template = _.template($('#tmplIntro').html());
 	},
-	render:function(){
+	render: function() {
 		this.$el.html(this.template());
 		return this.$el;
 	},
-	connectWithGoogle:function(evt){
+	connectWithGoogle: function(evt) {
 		evt.preventDefault();
 		evt.stopPropagation();
 
-		var clientId = "502172359025.apps.googleusercontent.com",
+		var clientId = "691019250891.apps.googleusercontent.com", //"502172359025.apps.googleusercontent.com",
 			callbackUrl = location.origin + location.pathname + "auth.html",
 			scope = "https://www.googleapis.com/auth/calendar.readonly";
 
@@ -45,16 +45,16 @@ var IntroView = Backbone.View.extend({
 
 		window.location = reqUrl;
 	},
-	show:function(){
+	show: function() {
 		this.$el.css("display", "block");
 	},
-	hide:function(){
+	hide: function() {
 		this.$el.css("display", "none");
 	}
 });
 
 var AppView = Backbone.View.extend({
-	attributes:{
+	attributes: {
 		id:"app"
 	},
 	initialize: function() {
@@ -80,27 +80,27 @@ var AppView = Backbone.View.extend({
 		var options = new Options({model:this.model.get("selectedRange")});
 		this.$el.append(options.render());
 	},
-	render:function(){
+	render: function() {
 		return this.$el;
 	},
-	calendarLoadingStart:function(){
+	calendarLoadingStart: function() {
 		this.output.showSpinner();
 	},
-	show:function(){
+	show: function() {
 		this.$el.css("display", "block");
 	},
-	hide:function(){
+	hide: function() {
 		this.$el.css("display", "none");
 	}
 });
 
 var CalendarSelectList = Backbone.View.extend({
-	id:"calendars",
+	id: "calendars",
 	template: undefined,
 	events: {
 		'change select': 'calendarChanged'
 	},
-	initialize: function(){
+	initialize: function() {
 		this.model.get("calendarsCollection").bind("reset", this.calendarsReceived, this);
 		this.model.bind("calendarSelectionChanged", this.updateView, this);
 		this.model.bind("calendarLoadingStart", this.updateView, this);
@@ -117,9 +117,9 @@ var CalendarSelectList = Backbone.View.extend({
 		this.$el.find("select").val(cid);
 		// seems that setting the value the first time (sometimes) doesn't work
 		// this makes it sure
-		if(this.$el.find("select").get(0).value===""){
+		if (this.$el.find("select").get(0).value===""){
 			var self = this;
-			setTimeout(function(){
+			setTimeout(function() {
 				self.$el.find("select").val(cid);
 			}, 50);
 		}
@@ -141,7 +141,7 @@ var CalendarSelectList = Backbone.View.extend({
 
 var RangeSelectList = Backbone.View.extend({
 	template: undefined,
-	events:{
+	events: {
 		'change select#rangeList': 'rangeSelected'
 	},
 	initialize: function() {
@@ -154,7 +154,7 @@ var RangeSelectList = Backbone.View.extend({
 		return this.$el;
 	},
 	update: function(model, value) {
-		if(!value) {
+		if (!value) {
 			return;
 		}
 		this.$el.css("display", "block");
@@ -163,7 +163,7 @@ var RangeSelectList = Backbone.View.extend({
 	rangeSelected: function(evt) {
 		this.model.updateRangeByIndex(evt.target.selectedIndex);
 	},
-	show:function(){
+	show: function() {
 		this.$el.css("display", "block");
 	}
 });
@@ -201,26 +201,26 @@ var RangeChangeBtns = Backbone.View.extend({
 	},
 	changeRangePrev: function(evt) {
 		evt.preventDefault();
-		if(this.disableBtns){
+		if (this.disableBtns){
 			return;
 		}
 		this.model.changeRange(-1);
 	},
 	changeRangeReset: function(evt) {
 		evt.preventDefault();
-		if(this.disableBtns){
+		if (this.disableBtns){
 			return;
 		}
 		this.model.changeRange(0);
 	},
 	changeRangeNext: function(evt) {
 		evt.preventDefault();
-		if(this.disableBtns){
+		if (this.disableBtns){
 			return;
 		}
 		this.model.changeRange(1);
 	},
-	show:function(){
+	show: function() {
 		this.$el.css("display", "block");
 	}
 });
@@ -308,14 +308,14 @@ var Options = Backbone.View.extend({
 		this.$el.css("display", "none");
 		return this.$el;
 	},
-	changeRadio1: function(evt){
+	changeRadio1: function(evt) {
 		this.model.updateWeekStart("sunday");
 	},
-	changeRadio2: function(evt){
+	changeRadio2: function(evt) {
 		this.model.updateWeekStart("monday");
 	},
 	update: function(model, value) {
-		if(value === "week") {
+		if (value === "week") {
 			this.$el.css("display", "block");
 		} else {
 			this.$el.css("display", "none");

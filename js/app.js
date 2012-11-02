@@ -13,16 +13,15 @@ $(function() {
 			this.$el.find("#container").append(this.introView.render());
 
 			var auth = JSON.parse(sessionStorage.getItem("auth"));
-
-			if(auth) {
-				this.appView = new AppView({model:this.model});
+			if (auth) {
+				this.appView = new AppView({model: this.model});
 				this.$el.find("#container").append(this.appView.render());
 
 				this.introView.hide();
 
 				$.ajaxSetup({
-					beforeSend: function(xhr, settings){
-						if(settings.url.indexOf("?") !== -1){
+					beforeSend: function(xhr, settings) {
+						if (settings.url.indexOf("?") !== -1){
 							settings.url += "&access_token=" + auth.accessToken;
 						} else {
 							settings.url += "?access_token=" + auth.accessToken;
@@ -41,10 +40,10 @@ $(function() {
 
 	var config = {lastSelectedCalendarIndex:null, lastSelectedRangeIndex:null};
 	var lsConfig = localStorage.getItem("config");
-	if(lsConfig) {
+	if (lsConfig) {
 		config = JSON.parse(lsConfig);
 	}
 
-	var appModel = new AppModel(null, {config:config});
+	var appModel = new AppModel(null, {config: config});
 	var app = new App({model: appModel});
 });
